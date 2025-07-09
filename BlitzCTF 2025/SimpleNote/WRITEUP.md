@@ -4,7 +4,7 @@ UAF-vulnerable note taking app that uses calloc and modern glibc
 
 # Overview
 
-This is a pwn challenge which has a note system, often met at heap challenges. We are given the option to create, edit, show and delete chunks. There is also a secret function which allows us to get a leak. All protections are enabled the binary uses a modern libc version. The creation of chunks is done via calloc, which doesn't look in the tcache directly and also fills the allocated chunk with zeroes. We are also limited to 7 entries in our pointer list, which suggests that we can only have 7 chunks allocated.
+This is a pwn challenge which has a note system, often met at heap challenges. We are given the option to create, edit, show and delete chunks. There is also a secret function which allows us to get a leak. All protections are enabled and the binary uses a modern libc version. The creation of chunks is done via calloc, which doesn't look in the tcache directly and also fills the allocated chunk with zeroes. We are also limited to 7 entries in our pointer list, which suggests that we can only have 7 chunks allocated.
 
 # Vulnerability
 
