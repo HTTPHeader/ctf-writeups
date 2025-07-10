@@ -137,7 +137,7 @@ for i in range(6):
 
 ## Allocate over pointer list
 
-Now that the program uses fastbins, we can fake FD with the UAF vulnerability. Just like tcache, fastbins also has safe-linking in this version. The FD pointer is mangled and the chunk must be aligned to 16 bytes. Not only, fastbins has an annoying mitigation, the metadata size field must be correct. If we allocate a chunk of size 0x30 and it takes it from the fastbin, the size field from the metadata (which is located 8 bytes before the user data) must have a value ranging from 0x40 to 0x4f. The last 4 bits aren't evaluated ([see this](https://elixir.bootlin.com/glibc/glibc-2.39/source/malloc/malloc.c#L1390)). The program actually helps us by placing the size of any chunk we allocate, in the pointer list:
+Now that the program uses fastbins, we can fake FD with the UAF vulnerability. Just like tcache, fastbins also has safe-linking in this version. The FD pointer is mangled and the chunk must be aligned to 16 bytes. Not only, fastbins has an annoying mitigation, the metadata size field must be correct. If we allocate a chunk of size 0x30 and it takes it from the fastbin, the size field from the metadata (which is located 8 bytes before the user data) must have a value ranging from 0x40 to 0x4f. The last 4 bits aren't evaluated ([see this](https://elixir.bootlin.com/glibc/glibc-2.39/source/malloc/malloc.c#L1729)). The program actually helps us by placing the size of any chunk we allocate, in the pointer list:
 
 ```c
 sz = getNum();
