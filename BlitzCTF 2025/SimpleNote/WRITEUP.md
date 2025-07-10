@@ -41,7 +41,7 @@ First, I had to extract the libc and linker from the Docker container. I just pu
 
 ## Obtaining secret values
 
-For some reason, to edit, show or delete chunks, the program requires that we know a secret value for each entry. This can be quite easily obtained, since if the secret is wrong, the program prints us the XOR between the secret and our input. Entering 0 will print us the correct value.
+For some reason, to edit, show or delete chunks, the program requires that we know a secret value for each entry. Since the program prints the XOR between our input and the secret if it's wrong, entering 0 will give us the correct value.
 
 ## Heap leak
 
