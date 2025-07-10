@@ -120,7 +120,7 @@ The functions you want to look at are \_\_libc_malloc, \_\_libc_calloc and \_int
 
 This took me some time to figure out, and I would be very confused as to why I kept getting new allocations instead of my free chunks from tcache.
 
-However, tcache for each thread has a limit by default, 7 chunks. After the tcache is filled, \_int\_malloc will be called which will start looking for chunks in other bins depending on your context. We can allocate chunks of 80 bytes at most, so we do not have to worry about any other bin other than fastbins.
+However, tcache for each thread has a limit by default, 7 chunks. After the tcache is filled, \_int\_malloc will be called which will start looking for chunks in other bins depending on your context. We can allocate chunks of 80 bytes at most, so we do not have to worry about any bin other than fastbins.
 
 We are also limited to 7 allocations, if we try to allocate again after having filled the pointer list, we will get "No space left" message. This can be easily bypassed. We use the UAF vulnerability to overwrite the tcache key, a random value next to the FD in free tcache chunks that is used to check if the chunk is already free. This is a mitigation for double free vulnerabilities in tcache, however useless in our case in which we have UAF. Once we have overwritten it, we free the chunk again. We do this over and over on the same chunk (using only 1 entry of the pointer list) until tcache is filled:
 
