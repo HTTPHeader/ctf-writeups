@@ -430,7 +430,7 @@ io.interactive()
 
 # Enjoy
 
-![[image_shell.png]]
+![shell](image_shell.png)
 
 # Flag
 
