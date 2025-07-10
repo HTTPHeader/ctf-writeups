@@ -122,7 +122,7 @@ This took me some time to figure out, and I would be very confused as to why I k
 
 However, tcache for each thread has a limit by default, 7 chunks. After the tcache is filled, \_int\_malloc will be called which will start looking for chunks in other bins depending on your context. We can allocate chunks of 80 bytes at most, so we do not have to worry about any bin other than fastbins.
 
-We are also limited to 7 allocations, if we try to allocate again after having filled the pointer list, we will get "No space left" message. This can be easily bypassed. We use the UAF vulnerability to overwrite the tcache key, a random value next to the FD in free tcache chunks that is used to check if the chunk is already free. This is a mitigation for double free vulnerabilities in tcache, however useless in our case in which we have UAF. Once we have overwritten it, we free the chunk again. We do this over and over on the same chunk (using only 1 entry of the pointer list) until tcache is filled:
+We are also limited to 7 allocations. If we try to allocate again after having filled the pointer list, we will get "No space left" message. This can be easily bypassed. We use the UAF vulnerability to overwrite the tcache key, a random value next to the FD in free tcache chunks that is used to check if the chunk is already free. This is a mitigation for double free vulnerabilities in tcache, however useless in our case in which we have UAF. Once we have overwritten it, we free the chunk again. We do this over and over on the same chunk (using only 1 entry of the pointer list) until tcache is filled:
 
 ```python
 ################ Fill tcache ################
@@ -137,7 +137,7 @@ for i in range(6):
 
 ## Allocate over pointer list
 
-Now that the program uses fastbins, we can fake FD with the UAF vulnerability. Just like tcache, fastbins also has safe-linking in this version. The FD pointer is mangled and the chunk must be aligned to 16 bytes. Not only, fastbins has an annoying mitigation, the metadata size field must be correct (last 4 aren't evaluated). If we allocate a chunk of size 0x30 and it takes it from the fastbin, the size field from the metadata (which is located 8 bytes before the user data) must have a value ranging from 0x40 to 0x4f. The last 4 bits aren't evaluated ([see this](https://elixir.bootlin.com/glibc/glibc-2.39/source/malloc/malloc.c#L1390)). The program actually helps us by placing the size of any chunk we allocate in the pointer list:
+Now that the program uses fastbins, we can fake FD with the UAF vulnerability. Just like tcache, fastbins also has safe-linking in this version. The FD pointer is mangled and the chunk must be aligned to 16 bytes. Not only, fastbins has an annoying mitigation, the metadata size field must be correct. If we allocate a chunk of size 0x30 and it takes it from the fastbin, the size field from the metadata (which is located 8 bytes before the user data) must have a value ranging from 0x40 to 0x4f. The last 4 bits aren't evaluated ([see this](https://elixir.bootlin.com/glibc/glibc-2.39/source/malloc/malloc.c#L1390)). The program actually helps us by placing the size of any chunk we allocate, in the pointer list:
 
 ```c
 sz = getNum();
