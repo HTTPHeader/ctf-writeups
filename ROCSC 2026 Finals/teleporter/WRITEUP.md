@@ -69,7 +69,7 @@ public class MainListener implements Listener {
 }
 ```
 
-Attempting to log on as FLAG_PART1 results in:
+Attempting to log on as FLAG_PART1 results in:<br>
 ![Screenshot of error message](images/name_not_allowed.png)
 
 ## TeleportToPlayerCommand.java
