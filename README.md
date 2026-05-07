@@ -1,6 +1,6 @@
 # CTF Writeups by header
 
-Writeups for CTF challenges that I really enjoyed
+Writeups for CTF challenges
 
 **You can find these on my website as well: [https://header.ro/posts/](https://header.ro/posts/)**
 
