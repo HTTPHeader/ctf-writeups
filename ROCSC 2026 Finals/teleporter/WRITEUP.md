@@ -4,7 +4,7 @@ Exploitable Minecraft server plugin that allows players to teleport to each othe
 
 # Introduction
 
-Teleporter is a CTF challenge that I created for the final phase of the Romanian Cyber Security Challenge 2026 (ROCSC).
+Teleporter is a CTF task that I created for the final phase of the Romanian Cyber Security Challenge 2026 (ROCSC).
 It involved exploiting bugs in a teleportation feature provided by a Minecraft Java Edition server plugin.
 
 # Overview
