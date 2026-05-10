@@ -220,7 +220,7 @@ times higher than what they were supposed to be.
 Example:
 - **User B** is at 1000 ~ 1000 in the Nether
 - **User A** runs `/tpto <User B>`, world is set to Nether
-- **User B** goes into the Overworld, ends up at -4000 ~ -4000 
+- **User B** goes into the Overworld, ends up at 8000 ~ 8000
 - **User A** teleports to 8000 ~ 8000 in the Nether, 5 seconds later (64000 ~ 64000 in the Overworld)
 
 After doing this, we can repeat the process, except **User B** will now be teleporting
